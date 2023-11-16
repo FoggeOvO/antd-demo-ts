@@ -1,12 +1,25 @@
-#login-from {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* 如果需要水平居中也可以添加这行 */
-    height: 100vh;
-    /* 设置高度占满整个视窗 */
-    margin: 0 auto;
-    width: 500px;
-    height: 300px;
-    padding: 15px;
-}
+/* login.css */
+
+#login-title {
+    text-align: center;
+    margin-bottom: 20px; /* 间距可以根据需要调整 */
+  }
+  
+  #login-from {
+    max-width: 400px; /* 控制表单的最大宽度 */
+    margin: 0 auto; /* 居中显示 */
+    padding: 20px; /* 添加一些内边距 */
+    border: 1px solid #ddd; /* 添加边框效果 */
+    border-radius: 5px; /* 圆角边框 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+  }
+  
+  /* 为 Submit 按钮添加一些样式 */
+  #login-from .ant-btn-primary {
+    width: 100%; /* 按钮宽度100% */
+  }
+  
+  /* 如果需要去除 Form 的默认边距，可以添加下面这段样式 */
+  #login-from .ant-form {
+    margin: 0;
+  }

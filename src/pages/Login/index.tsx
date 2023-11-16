@@ -28,7 +28,8 @@ const Login: FC = () => {
     return (
         <div>
             <div id='login-title'>
-                <h2>登录</h2>
+                <h2>虾球EHR</h2>
+                <p>哎哟~</p>
             </div>
             <Divider plain></Divider>
             <div id='login-from'>

@@ -1,20 +1,24 @@
-import React from 'react'
+import {FC} from 'react'
 import routers from '../../routers'
-import {BrowserRouter,Route,Routes,Link} from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 
-export default function index() {
-  return (
-    <div>
-       <Routes>
-          {routers.map(
-            (r)=>{
-                return (
-                    <Route path={r.path} key={r.key} element={r.element}></Route> 
-                )
-            }
-            )}
-       </Routes>
-    </div>
-  )
+const  View:FC = ()=>{
+    return (
+        <div>
+            <BrowserRouter>
+                <Routes>
+                    {routers.map(
+                        (r) => {
+                            return (
+                                <Route path={r.path} key={r.key} element={r.element}></Route>
+                            )
+                        }
+                    )}
+                </Routes>
+            </BrowserRouter>
+        </div>
+    )
 }
+
+export default View;
