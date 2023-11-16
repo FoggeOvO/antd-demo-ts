@@ -3,6 +3,7 @@ import { Form, Button, Input, Divider } from 'antd'
 import { FormInstance } from 'antd/lib/form';
 import '../../static/css/login.css'
 import { post } from '../../utils/request';
+import { useNavigate } from 'react-router-dom';
 
 type FieldType = {
     username: string
@@ -12,13 +13,19 @@ type FieldType = {
 const Login: FC = () => {
     //1.通过ref获取表单提交的数据username和password
     const formRef = React.useRef<FormInstance>(null)
+
+    const navigate = useNavigate()
+
     const onFinish = () => {
         const formInstance = formRef.current
         if (formInstance) {
             const userinfo = formInstance.getFieldsValue(['username', 'password'])
             post('/auth/gettoken', userinfo).then(res => {
-                console.log(res)
-            }, err => {console.log(err)})
+                console.log('@',res)
+                if(res.code === '0000'){
+                    navigate('/index')
+                }
+            }, err => {console.log('@@',err)})
         }
     }
 
@@ -28,7 +35,7 @@ const Login: FC = () => {
     return (
         <div>
             <div id='login-title'>
-                <h2>虾球EHR</h2>
+                <h2>咕噜EHR</h2>
                 <p>哎哟~</p>
             </div>
             <Divider plain></Divider>

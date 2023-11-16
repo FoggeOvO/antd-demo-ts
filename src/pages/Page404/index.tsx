@@ -1,11 +1,13 @@
 import { Button, Result } from 'antd'
-import { FC } from 'react'
+import { FC, startTransition } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const Page404: FC = () => {
     const navigate = useNavigate();
     const backHome = ()=>{
-        navigate('/login')
+        startTransition(() => {
+            navigate('/');
+        });
     }
     return (
         <Result
