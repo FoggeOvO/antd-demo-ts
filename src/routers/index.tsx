@@ -5,7 +5,7 @@ const Login = lazy(() => import('../pages/Login'))
 const Page404 = lazy(() => import('../pages/Page404'))
 const AppLayout = lazy(() => import('../components/AppLayout'))
 const DashBoard = lazy(() => import('../pages/DashBoard'))
-
+const TestC = lazy(() => import('../pages/TestC'))
 
 
 interface IRouter {
@@ -48,8 +48,15 @@ const routers: IRouter[] = [
         title: '404',
         key: '404',
         element: <Page404 />
+    },
+    {
+        path: '/testc',
+        title: 'test',
+        key: 'testc',
+        element: <TestC />
     }
 ]
+
 
 
 export default routers

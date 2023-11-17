@@ -1,37 +1,21 @@
 import React from 'react';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import left from '../../Menus/left'
+import main from '../../Menus/main'
 
 const { Header, Content, Sider } = Layout;
 
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
-
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-  (icon, index) => {
-    const key = String(index + 1);
-
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(icon),
-      label: `subnav ${key}`,
-
-      children: new Array(4).fill(null).map((_, j) => {
-        const subKey = index * 4 + j + 1;
-        return {
-          key: subKey,
-          label: `option${subKey}`,
-        };
-      }),
-    };
-  },
-);
 
 const AppLayout: React.FC = () => {
+  const navigate = useNavigate();
+  const changeRoute =({ key, keyPath}: {  key: string; keyPath: string[] })=>{
+    console.log(key,keyPath)
+     navigate(key);
+  }
+  
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -40,17 +24,21 @@ const AppLayout: React.FC = () => {
     <Layout>
       <Header style={{ display: 'flex', alignItems: 'center' }}>
         <div className="demo-logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={items1} />
+        <Menu style={{ width: '100%' }} theme="dark" mode="horizontal" defaultOpenKeys={['01']} defaultSelectedKeys={['01']} items={main} />
       </Header>
       <Layout>
-        <Sider width={200} style={{ background: colorBgContainer }}>
+        <Sider style={{ background: colorBgContainer }}>
           <Menu
             mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
+            defaultSelectedKeys={['0101']}
+            defaultOpenKeys={['01']}
             style={{ height: '100%', borderRight: 0 }}
-            items={items2}
-          />
+            items={left}
+            onClick={changeRoute}
+          >
+       
+          </Menu>
+
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
           <Breadcrumb style={{ margin: '16px 0' }} items={[
