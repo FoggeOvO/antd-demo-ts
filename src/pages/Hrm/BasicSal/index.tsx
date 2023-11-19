@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function DashBoard() {
+export default function BasicSal() {
   return (
     <div>
-        111
+       salary...
     </div>
   )
 }

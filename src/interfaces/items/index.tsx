@@ -1,7 +1,9 @@
 export default interface items{
     key:string
+    keypath: string
     label:string
-    children?:items[]
+    module?:string
+    children?:items[]|undefined
   }
 
 
