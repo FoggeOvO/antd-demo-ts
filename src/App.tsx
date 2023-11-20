@@ -1,13 +1,16 @@
-import {FC} from 'react'
+import { FC } from 'react'
 import 'antd/dist/reset.css'
 import View from './components/View'
+import { TokenProvider } from './components/TokenProvider'
 
 
 
-const App:FC=()=> {
+const App: FC = () => {
   return (
     <div>
-      <View/>
+      <TokenProvider>
+        <View />
+      </TokenProvider>
     </div>
   );
 }

@@ -1,18 +1,21 @@
 import React, { FC } from 'react';
 import { Form, Button, Input, Divider, message } from 'antd';
 import { FormInstance } from 'antd/lib/form';
-import '../../static/css/login.css';
+import { useToken } from '../../components/TokenProvider';
 import { post } from '../../utils/request';
 import { useNavigate } from 'react-router-dom';
+import '../../static/css/login.css';
 
 type FieldType = {
   username: string;
   password: string;
 };
 
+
 const Login: FC = () => {
   const formRef = React.useRef<FormInstance>(null);
   const navigate = useNavigate();
+  const { token,saveToken } = useToken();
 
   const showMessage = (status: 'success' | 'error' | 'warning') => {
     const messages = {
@@ -32,6 +35,8 @@ const Login: FC = () => {
       post('/auth/gettoken', userinfo).then(
         (res) => {
           if (res.code === '0000') {
+            saveToken(res.data);
+            console.log(token)
             navigate('/index');
             showMessage('success');
           } else {

@@ -1,19 +1,20 @@
-import React, { FC,useEffect,useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Button, Table } from 'antd';
-import {get} from '../../../utils/request'
+import { useToken } from '../../../components/TokenProvider';
+import { get } from '../../../utils/request'
 
 const dataSource = [
   {
     key: '1',
-    name: '胡彦斌',
-    age: 32,
-    address: '西湖区湖底公园1号',
+    name: '牛德华',
+    age: 18,
+    address: 'Makati',
   },
   {
     key: '2',
-    name: '胡彦祖',
+    name: '罗曼卡洛',
     age: 42,
-    address: '西湖区湖底公园1号',
+    address: 'Mandaluyong',
   },
 ];
 
@@ -37,14 +38,16 @@ const dataSource = [
 
 
 
-const HrmInfo:FC = () => {
-  const [columns,setColumns] = useState();
+const HrmInfo: FC = () => {
+  const [columns, setColumns] = useState();
+  const { token } = useToken();
 
-  useEffect(()=>{
-    get('/api/user/getusers','_').then((data)=>{
-      console.log(data)
-    },(reason)=>{console.log(reason)})
-  },[])
+  useEffect(() => {
+    get('/api/sys/getcolumns', token).then((res) => {
+      console.log('@@',res.data)
+      setColumns(res.data)
+    }, (reason) => { console.log(reason) })
+  }, [token])
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [loading, setLoading] = useState(false);
