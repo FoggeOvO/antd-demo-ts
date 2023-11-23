@@ -1,4 +1,4 @@
-import items from '../../interfaces/items'
+import items from '../../interfaces/Items'
 
 const left:items[] = [
   {
@@ -40,37 +40,55 @@ const left:items[] = [
     },
     {
       key:'02',
-      keypath: '/hrm',
+      keypath: '/dep',
       module:'02',
       label:'组织结构',
       children:[
         {
-          key:'0201',
-          keypath: '/hrm',
+          key:'/dep/info',
+          keypath: '/dep/info',
           label:'部门信息',
         },
         {
-          key:'0203',
-          keypath: '/hrm',
+          key:'/dep/chg',
+          keypath: '/dep/chg',
           label:'变动信息',
         },
       ]
     },
     {
       key:'03',
-      keypath: '/hrm',
+      keypath: '/att',
       module:'03',
-      label:'考勤计算',
+      label:'考勤管理',
       children:[
         {
-          key:'0301',
-          keypath: '/hrm',
+          key:'/att/res',
+          keypath: '/att/res',
           label:'结果数据',
         },
         {
-          key:'0302',
+          key:'/att/imp',
           keypath: '/hrm',
           label:'信息导入',
+        },
+      ]
+    },
+    {
+      key:'04',
+      keypath: '/sal',
+      module:'03',
+      label:'薪酬管理',
+      children:[
+        {
+          key:'/sal/base',
+          keypath: '/sal/base',
+          label:'薪资基础',
+        },
+        {
+          key:'/sal/res',
+          keypath: '/sal/res',
+          label:'薪资计算',
         },
       ]
     }

@@ -1,9 +1,9 @@
-export default interface items{
+export default interface Items{
     key:string
     keypath: string
-    label:string
+    label:string,
     module?:string
-    children?:items[]|undefined
+    children?:Items[]
   }
 
 

@@ -1,9 +1,11 @@
 import React from 'react'
+import BuildPage from '../../BuildPage'
+
 
 export default function ChangLog() {
   return (
     <div>
-        Log...
+        <BuildPage />
     </div>
   )
 }

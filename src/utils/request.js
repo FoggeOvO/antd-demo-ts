@@ -6,14 +6,15 @@ axios.defaults.timeout = 10000;
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
 axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
 
+const  token  = localStorage.getItem('token')
 
-export const get = (url, token) => {
+export const get = (url) => {
   return new Promise((resolve, reject) => {
     axios({
       url,
       method: "get",
       headers: {
-        token: token, // 添加 Authorization 头部
+        token, // 添加 Authorization 头部
       },
 
     })
