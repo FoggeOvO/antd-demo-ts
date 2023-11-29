@@ -34,7 +34,9 @@ const Login: FC = () => {
       post('/auth/gettoken', userinfo).then(
         (res) => {
           if (res.code === '0000') {
-            localStorage.setItem('token',res.data)
+            localStorage.setItem('token',res.token)
+            localStorage.setItem('lastname',res.user.lastname)
+            localStorage.setItem('lastname',res.user.workcode)
             navigate('/index');
             showMessage('success');
           } else {

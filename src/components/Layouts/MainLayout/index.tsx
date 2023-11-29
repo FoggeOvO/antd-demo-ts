@@ -1,20 +1,16 @@
 import {
-  GithubFilled,
-  InfoCircleFilled,
-  QuestionCircleFilled,
+  LogoutOutlined,
 } from '@ant-design/icons';
 import type { ProSettings } from '@ant-design/pro-components';
 import {
   PageContainer,
-  ProCard,
   ProLayout,
   SettingDrawer,
 } from '@ant-design/pro-components';
-import { useState,useEffect, } from 'react';
-import defaultProps from '../../../Menus/demo';
-import { useNavigate,Link, Route, RouteProps, Outlet,useLocation } from 'react-router-dom';
-import routers from '../../../routers';
-import IRouter from '../../../interfaces/IRouter'
+import { useState, Suspense,startTransition } from 'react';
+import defaultProps from '../../../Menus/main';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Dropdown, Spin } from 'antd';
 
 const MainLayout = () => {
   const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
@@ -22,35 +18,15 @@ const MainLayout = () => {
   });
 
   const [pathname, setPathname] = useState('/welcome');
-
+  
   const navigate = useNavigate()
 
-
-  const matchPath = (path: string, routers: IRouter[]): IRouter | null => {
-    for (let item of routers) {
-        if (item.path === path) {
-            return item;
-        }
-        if (item.children) {
-            const childMatch = matchPath(path, item.children);
-            if (childMatch) {
-                return childMatch;
-            }
-        }
-    }
-    
-    return null;
-}
-
-const currentRoute = matchPath(pathname, routers);
-
-if (currentRoute) {
-  console.log('@', currentRoute.element);
-  // 在这里使用 currentRoute.element 渲染内容或执行其他逻辑
-} else {
-  console.log('Route not found');
-  // 处理找不到路由的情况
-}
+  const logout = ()=>{
+    startTransition(()=>{
+      navigate('/')
+      localStorage.removeItem('token')
+    })
+  }
 
   return (
     <div
@@ -89,30 +65,50 @@ if (currentRoute) {
           type: 'group',
         }}
         avatarProps={{
-          src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-          title: '七妮妮',
+          style:{ backgroundColor: "#7265e6", verticalAlign: "middle"},
+          gap:4,
+          size:"large",
+          title: localStorage.getItem('lastname'),
+          render:(_,dom)=>{
+            return (
+              <Dropdown
+              menu={{
+                items: [
+                  {
+                    key: 'logout',
+                    icon: <LogoutOutlined />,
+                    label: '退出登录',
+                    onClick:logout,
+                  },
+                ],
+              }}
+            >
+              {dom}
+            </Dropdown>
+            )
+          }
         }}
         actionsRender={(props) => {
           if (props.isMobile) return [];
           return [
-            <InfoCircleFilled key="InfoCircleFilled" />,
-            <QuestionCircleFilled key="QuestionCircleFilled" />,
-            <GithubFilled key="GithubFilled" />,
+            <LogoutOutlined key='LogoutOutlined' onClick={logout}/>, 
           ];
         }}
         menuItemRender={(item, dom) => (
-          <div
+          <Link key={pathname} to={item.path ?? '/'}
             onClick={() => {
               setPathname(item.path || '/welcome');
             }}
           >
             {dom}
-          </div>
+          </Link>
         )}
         {...settings}
       >
-        <PageContainer>
-            {currentRoute?.element}
+        <PageContainer >
+          <Suspense  fallback={<Spin/>}>
+            <Outlet />
+          </Suspense>
         </PageContainer>
       </ProLayout>
       <SettingDrawer

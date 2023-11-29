@@ -1,6 +1,7 @@
 import {  lazy } from 'react'
 import IRouter from '../interfaces/IRouter'
 
+
 const Login = lazy(() => import('../pages/Login'))
 const Page404 = lazy(() => import('../pages/Page404'))
 const HrmInfo = lazy(() => import('../pages/Hrm/HrmInfo'))
@@ -22,6 +23,13 @@ const routers: IRouter[] = [
         path: '/index',
         title: '首页',
         key: 'AppLayout',
+        auth:true,
+        element: <MainLayout />,
+    },
+    {
+        path: '/welcome',
+        title: '欢迎页',
+        key: 'welcome',
         auth:true,
         element: <MainLayout />,
     },

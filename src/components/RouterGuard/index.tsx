@@ -27,12 +27,6 @@ const guard = (
 ) => {
     const {pathname} = location;
     const routeDetail = matchPath (pathname,routers);
-    console.log('routeDetail = ' ,'{title :' +  routeDetail?.title +
-                                    '  path:' +   routeDetail?.path +
-                                    '  auth:' +   routeDetail?.auth +
-                                    '  element:' +   routeDetail?.element +
-                                    '  key:' +   routeDetail?.key
-                                    )
 
     //找不到路由，就跳转404
     if(!routeDetail ){
@@ -57,7 +51,6 @@ export const RouterGuard = (routers:IRouter[]) => {
     const location = useLocation();
     const navigate = useNavigate();
     const token = localStorage.getItem('token')
-    console.log('token is:',token )
     useEffect(()=>{
         guard(location,navigate,routers,token!)
     },[location,navigate,routers,token]);

@@ -54,7 +54,7 @@ const HrmInfo: FC = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: 16 }}>
+      <div key={nanoid()} style={{ marginBottom: 16 }}>
         <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
           Reload
         </Button>
