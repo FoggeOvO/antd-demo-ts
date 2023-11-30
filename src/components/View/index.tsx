@@ -3,9 +3,6 @@ import routers from '../../routers'
 import { useRoutes } from 'react-router-dom'
 import {RouterGuard} from '../RouterGuard'
 
-  
-
-
 
 const  View:FC = ()=>{
     RouterGuard(routers)
