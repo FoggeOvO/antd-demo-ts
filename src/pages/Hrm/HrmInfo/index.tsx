@@ -11,7 +11,8 @@ interface ColumnItem {
   dataIndex: string;
   key: string;
   title: string;
-  sortkey?: number | 0
+  sortkey?: number | 0;
+  showInMain?:boolean;
 }
 
 const rowSelection = {
@@ -34,7 +35,7 @@ const HrmInfo = () => {
           render: (text: string) => <span style={{ fontSize: '12px' }}>{text}</span>,
           title: <span style={{ fontSize: '12px' }}>{item.title}</span>,
         }))
-          .sort((a: ColumnItem, b: ColumnItem) => { return (a.sortkey ?? 0) - (b.sortkey ?? 0)})
+          .sort((a: ColumnItem, b: ColumnItem) => { return (a.sortkey ?? 0) - (b.sortkey ?? 0)}).filter((item :ColumnItem)=>{return item.showInMain === true })
       ))
       .catch(reason => console.log(reason))
   }, [token])
