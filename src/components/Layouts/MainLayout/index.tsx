@@ -33,6 +33,7 @@ const MainLayout = () => {
       id="test-pro-layout"
       style={{
         height: '100vh',
+        backgroundImage: 'linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)' 
       }}
     >
       <ProLayout

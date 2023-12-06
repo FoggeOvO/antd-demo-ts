@@ -2,59 +2,20 @@ import {FC} from 'react'
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { DataNode, TreeProps } from 'antd/es/tree';
+import {SourceData,TargetData,convertTree} from './treeutil'
 
-const treeData: DataNode[] = [
-    {
-      title: '总部',
-      key: '0-0',
-      children: [
-        {
-          title: 'SSC',
-          key: '0-0-0',
-          children: [
-            {
-              title: '人事部',
-              key: '0-0-0-0',
-            },
-            {
-              title: '行政部',
-              key: '0-0-0-1',
-            },
-            {
-              title: '财务部',
-              key: '0-0-0-2',
-            },
-          ],
-        },
-        {
-          title: 'HQ',
-          key: '0-0-1',
-          children: [
-            {
-              title: 'HQA',
-              key: '0-0-1-0',
-            },
-          ],
-        },
-        {
-          title: 'HQB',
-          key: '0-0-2',
-          children: [
-            {
-              title: '运营部',
-              key: '0-0-2-0',
-            },
-            {
-              title: '研发部',
-              key: '0-0-2-1',
-            },
-          ],
-        },
-      ],
-    },
-  ];
+const treeData: SourceData[] =  [
+  { "depname": "总部", "parent": null, "depid": 0 },
+  { "depname": "SSC", "parent": 0, "depid": 1 },
+  { "depname": "人事部", "parent": 2, "depid": 2 },
+  { "depname": "OA组", "parent": 2, "depid": 3 },
+  { "depname": "HRBP", "parent": 2, "depid": 4 },
+  { "depname": "签证组", "parent": 2, "depid": 5 },
+  { "depname": "薪酬组", "parent": 2, "depid": 6 },
+]
 
-  
+ const dd =  convertTree(treeData)
+  console.log(dd)
 
 
 const DepTree:FC = () => {
@@ -63,12 +24,12 @@ const DepTree:FC = () => {
       };
     
       return (
-        <Tree
+        <Tree style={{backgroundImage:'linear-gradient(-225deg, #CBBACC 0%, #2580B3 100%)'}}
           showLine
           switcherIcon={<DownOutlined />}
           defaultExpandedKeys={['0-0-0']}
           onSelect={onSelect}
-          treeData={treeData}
+     
         />
       );
 }

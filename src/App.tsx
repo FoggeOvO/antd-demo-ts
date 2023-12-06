@@ -4,7 +4,7 @@ import View from './components/View'
 
 const App: FC = () => {
   return (
-    <div>
+    <div style={{height:'100%'}}>
           <View />
     </div >
   );

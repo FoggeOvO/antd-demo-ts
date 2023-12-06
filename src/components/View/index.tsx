@@ -8,7 +8,7 @@ const  View:FC = ()=>{
     RouterGuard(routers)
     const element = useRoutes(routers)
     return (
-        <div>
+        <div style={{height:'100%'}}>
             {element}
         </div>
     )
