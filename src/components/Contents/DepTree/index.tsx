@@ -1,36 +1,57 @@
-import {FC} from 'react'
+import { FC, useEffect, useState } from 'react'
+import PubSub from 'pubsub-js'
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
-import type { DataNode, TreeProps } from 'antd/es/tree';
-import {SourceData,TargetData,convertTree} from './treeutil'
-
-const treeData: SourceData[] =  [
-  { "depname": "总部", "parent": null, "depid": 0 },
-  { "depname": "SSC", "parent": 0, "depid": 1 },
-  { "depname": "人事部", "parent": 2, "depid": 2 },
-  { "depname": "OA组", "parent": 2, "depid": 3 },
-  { "depname": "HRBP", "parent": 2, "depid": 4 },
-  { "depname": "签证组", "parent": 2, "depid": 5 },
-  { "depname": "薪酬组", "parent": 2, "depid": 6 },
-]
-
- const dd =  convertTree(treeData)
-  console.log(dd)
+import type { TreeProps } from 'antd/es/tree';
+import { get, post } from '../../../utils/request'
+import { SourceData, convertTree, getChildrenKey } from './treeutil'
 
 
-const DepTree:FC = () => {
-    const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
-        console.log('selected', selectedKeys, info);
-      };
-    
-      return (
-        <Tree style={{backgroundImage:'linear-gradient(-225deg, #CBBACC 0%, #2580B3 100%)'}}
-          showLine
-          switcherIcon={<DownOutlined />}
-          defaultExpandedKeys={['0-0-0']}
-          onSelect={onSelect}
-     
-        />
-      );
+const DepTree: FC = () => {
+
+  const [deptData, setdeptData] = useState<SourceData[]>([])
+
+  useEffect(() => {
+    get('/api/dep/getdep')
+      .then((data) => {
+        setdeptData(data.data)
+        return data.data
+      })
+      .catch(
+        reason => console.log(reason)
+      )
+  }, [])
+
+
+  const treeData = convertTree(deptData)
+
+
+  const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
+    //这里的selectedKeys参数为一个数组，但实际只会加入当前选择的节点，所以可以直接获取第0个元素
+    const depid = selectedKeys[0]
+    const childrenDep = getChildrenKey(deptData, depid)
+    const selectDep = [depid, ...childrenDep]
+
+    post('/api/user/getuserByDepid', { "depids": selectDep })
+      .then(data => {
+        // console.log(data)
+        PubSub.publish('empInfo', data.data)
+      })
+      .catch(reason => console.log(reason))
+  };
+
+  return (
+    <div style={{ height: 'auto' }}>
+      {treeData.length > 0 && <Tree style={{ backgroundImage: 'linear-gradient(-225deg, #CBBACC 0%, #2580B3 100%)', height: '100%' }}
+        showLine
+        switcherIcon={<DownOutlined />}
+        defaultExpandedKeys={['0', '1', '2']}
+        onSelect={onSelect}
+        treeData={treeData}
+        rootStyle={{ height: '100%' }}
+      />}
+    </div>
+
+  );
 }
 export default DepTree 

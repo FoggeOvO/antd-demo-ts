@@ -5,8 +5,8 @@ export interface SourceData {
 }
 
 export interface TargetData {
-    depname: string;
-    depid: number;
+    title: string;
+    key: number;
     children?: TargetData[];
 }
 
@@ -17,8 +17,8 @@ export const convertTree = (data: SourceData[], parentId: number | null = null):
     for (const item of data) {
         if (item.parent === parentId) {
             const newItem: TargetData = {
-                depname: item.depname,
-                depid: item.depid,
+                title: item.depname,
+                key: item.depid,
             };
 
             const children = convertTree(data, item.depid);
@@ -32,4 +32,20 @@ export const convertTree = (data: SourceData[], parentId: number | null = null):
 
     return result;
 }
+
+
+export const getChildrenKey = (data: SourceData[],depId:React.Key):React.Key[]=>{
+    const result:React.Key[] = []
+    for(const item of data){
+        if(item.parent === depId){
+            const num = item.depid; // 使用 item.depid 替代 item.parent
+            result.push(num);
+
+            // 递归获取子元素并连接结果
+            result.push(...getChildrenKey(data, item.depid));
+        }
+    }
+    return result;
+}
+
 

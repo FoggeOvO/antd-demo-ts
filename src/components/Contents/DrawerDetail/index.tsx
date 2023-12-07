@@ -9,44 +9,28 @@ import React, { FC } from 'react'
 interface propsItem {
   open: boolean
   onClose: () => void
-  info?: SourceData
+  info?: HrmDataTpye
 }
 
-interface SourceData {
-  key: number;
-  group: string;
-  division: string;
-  position: string;
-  title: string;
+
+interface HrmDataTpye {
+  _id: string;
+  gender: string;
+  hiredate: string;
+  lastname: string;
   level: string;
+  workcode: string;
+  position: string;
+  depid: number;
+  title: string;
 }
 
-interface TargetData {
-  key: string;
-  label: string;
-  children: string;
-}
-
-const convertData = (sourceData: SourceData): TargetData[] => {
-  const targetData: TargetData[] = [];
-
-  for (const [label, value] of Object.entries(sourceData)) {
-    const key = String(targetData.length + 1);
-    const item: TargetData = { key, label, children: String(value) };
-    targetData.push(item);
-  }
-
-  return targetData;
-}
 
 const DrawerDetail: FC<propsItem> = (props) => {
 
 
   //打开抽屉，显示详细信息
   const { open, onClose, info } = props
-
-  const items = info ? convertData(info) : [];
-  console.log(items)
 
 
   return (
@@ -85,8 +69,8 @@ const DrawerDetail: FC<propsItem> = (props) => {
               {info?.title}
             </Avatar></div>
             <div id='card-body' style={{ display: 'flex' }}>
-              <Tag style={{ marginRight: '15px' }}>{info?.group}</Tag>
-              <Tag style={{ marginRight: '15px' }}>{info?.division}</Tag>
+              <Tag style={{ marginRight: '15px' }}>{info?.gender}</Tag>
+              <Tag style={{ marginRight: '15px' }}>{info?.workcode}</Tag>
               <Tag style={{ marginRight: '15px' }}>{info?.position}</Tag>
               <Tag style={{ marginRight: '15px' }}>{info?.level}</Tag>
             </div>
@@ -148,7 +132,7 @@ const DrawerDetail: FC<propsItem> = (props) => {
 
                 <div style={{ display: 'flex' }}>
                   <div style={{ width: '100%' }}>
-                    <ProFormText label="费用分摊部门" name="costcenter"  />
+                    <ProFormText label="费用分摊部门" name="costcenter" />
                   </div>
                 </div>
 
