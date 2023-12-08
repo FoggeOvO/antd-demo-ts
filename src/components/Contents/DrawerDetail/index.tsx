@@ -1,6 +1,6 @@
 import { ProCard, ProForm, ProFormDatePicker, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
 import { Avatar, Button, Divider, Drawer, Space, Tag } from 'antd'
-import React, { FC } from 'react'
+import React, { FC,useState } from 'react'
 
 
 //描述信息，固定得信息，无法修改
@@ -31,7 +31,12 @@ const DrawerDetail: FC<propsItem> = (props) => {
 
   //打开抽屉，显示详细信息
   const { open, onClose, info } = props
+  const [edit,setEdit] = useState(true)
+  const readControl = ()=>{
+    setEdit(!edit)
+  }
 
+  console.log(props)
 
   return (
     <>
@@ -44,10 +49,7 @@ const DrawerDetail: FC<propsItem> = (props) => {
         open={open}
         extra={
           <Space>
-            <Button onClick={onClose}>编辑</Button>
-            <Button type="primary" onClick={onClose}>
-              保存
-            </Button>
+            <Button type="primary" onClick={readControl}>编辑</Button>
           </Space>
         }
       >
@@ -91,10 +93,10 @@ const DrawerDetail: FC<propsItem> = (props) => {
           <div id='card-main' style={{ display: 'flex', flexDirection: 'column' }}>
             <div id='card-head' style={{ marginBottom: '15px' }}></div>
             <div id='card-body' style={{ display: 'flex' }}>
-              <ProForm readonly={false} style={{ display: 'flex', flexDirection: 'column' }}>
+              <ProForm readonly={edit} style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex' }}>
                   <div style={{ width: '25%', marginRight: '10%' }}>
-                    <ProFormText width="md" name='national' label="国籍" />
+                    <ProFormText width="md" name='national' label="国籍"  />
                   </div>
 
                   <div style={{ width: '25%', marginRight: '10%' }}>
@@ -108,10 +110,10 @@ const DrawerDetail: FC<propsItem> = (props) => {
 
                 <div style={{ display: 'flex' }}>
                   <div style={{ width: '25%', marginRight: '10%' }}>
-                    <ProFormSelect label="是否技术岗" name="isTech" valueEnum={{ 1: '是', 2: '否' }} />
+                    <ProFormSelect label="是否技术岗" name="isTech" valueEnum={{ 1: '是', 2: '否' }}  />
                   </div>
                   <div style={{ width: '25%', marginRight: '10%' }}>
-                    <ProFormSelect label="是否享有餐补" name="mealAllance" valueEnum={{ 1: '是', 2: '否' }} />
+                    <ProFormSelect label="是否享有餐补" name="mealAllance" valueEnum={{ 1: '是', 2: '否' }}  />
                   </div>
                   <div style={{ width: '25%' }}>
                     <ProFormSelect label="是否享有房补" name="houseAllance" valueEnum={{ 1: '是', 2: '否' }} />
@@ -137,7 +139,7 @@ const DrawerDetail: FC<propsItem> = (props) => {
                 </div>
 
                 <div style={{ display: 'flex' }}>
-                  <ProFormTextArea width="md" name="name" label="备注" readonly={false}></ProFormTextArea>
+                  <ProFormTextArea width="md" name="remark" label="备注" readonly={false}></ProFormTextArea>
                 </div>
 
 
