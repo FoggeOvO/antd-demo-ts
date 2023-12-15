@@ -3,7 +3,7 @@ import PubSub from 'pubsub-js'
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
-import { get, post } from '../../../utils/request'
+import { get,post } from '../../../utils/request'
 import { SourceData, convertTree, getChildrenKey } from './treeutil'
 
 
@@ -12,10 +12,9 @@ const DepTree: FC = () => {
   const [deptData, setdeptData] = useState<SourceData[]>([])
 
   useEffect(() => {
-    get('/api/dep/getdep')
+     get('/api/dep/getdep')
       .then((data) => {
         setdeptData(data.data)
-        return data.data
       })
       .catch(
         reason => console.log(reason)
@@ -26,13 +25,13 @@ const DepTree: FC = () => {
   const treeData = convertTree(deptData)
 
 
-  const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
+  const onSelect: TreeProps['onSelect'] = async (selectedKeys, info) => {
     //这里的selectedKeys参数为一个数组，但实际只会加入当前选择的节点，所以可以直接获取第0个元素
     const depid = selectedKeys[0]
     const childrenDep = getChildrenKey(deptData, depid)
     const selectDep = [depid, ...childrenDep]
 
-    post('/api/user/getuserByDepid', { "depids": selectDep })
+    await post('/api/user/getuserByDepid', { "depids": selectDep })
       .then(data => {
         // console.log(data)
         PubSub.publish('empInfo', data.data)

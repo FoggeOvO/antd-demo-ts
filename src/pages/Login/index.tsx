@@ -1,18 +1,23 @@
-import React, { FC } from 'react';
-import { Form, Button, Input, Divider, message } from 'antd';
-import { FormInstance } from 'antd/lib/form';
+import {
+  LockOutlined,
+  UserOutlined,
+  GooglePlusOutlined ,
+} from '@ant-design/icons';
+import {
+  LoginForm,
+  ProConfigProvider,
+  ProFormCheckbox,
+  ProFormText,
+} from '@ant-design/pro-components';
+import { FormInstance, Space, message } from 'antd';
+import type { CSSProperties } from 'react';
+import React,{FC} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { post } from '../../utils/request';
-import {  useNavigate } from 'react-router-dom';
-import '../../static/css/login.css';
 
-type FieldType = {
-  username: string;
-  password: string;
-};
 
 
 const Login: FC = () => {
-
   const formRef = React.useRef<FormInstance>(null);
   const navigate = useNavigate();
 
@@ -27,11 +32,12 @@ const Login: FC = () => {
     });
   };
 
-  const onFinish = () => {
+
+  const onFinish = async () => {
     const formInstance = formRef.current;
     if (formInstance) {
       const userinfo = formInstance.getFieldsValue(['username', 'password']);
-      post('/auth/gettoken', userinfo).then(
+     await post('/auth/gettoken', userinfo).then(
         (res) => {
           if (res.code === '0000') {
             localStorage.setItem('token',res.token)
@@ -49,51 +55,79 @@ const Login: FC = () => {
           console.log('@@', err);
         }
       );
+    
     }
   };
 
-  return (
-    <div>
-      <div id='login-title'>
-        <h2>咕噜EHR</h2>
-        <p>哎哟~</p>
-      </div>
-      <Divider plain></Divider>
-      <div id='login-from'>
-        <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ maxWidth: 600 }}
-          initialValues={{ remember: true }}
-          autoComplete="off"
-          onFinish={onFinish}
-          ref={formRef}
-        >
-          <Form.Item<FieldType>
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
-          >
-            <Input type='text' />
-          </Form.Item>
 
-          <Form.Item<FieldType>
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+  const iconStyles: CSSProperties = {
+    marginInlineStart: '16px',
+    fontSize: '24px',
+    verticalAlign: 'middle',
+    cursor: 'pointer',
+  };
+
+  return (
+    <ProConfigProvider hashed={false}>
+      <div >
+        <LoginForm
+          logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+          title="OA-EHR"
+          subTitle="人事托管平台"
+          onFinish={onFinish}
+          formRef={formRef}
+          actions={
+            <Space>
+              其他登录方式
+              <GooglePlusOutlined  style={iconStyles} />
+            </Space>
+          }
+        >
+            <>
+              <ProFormText
+                name="username"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <UserOutlined className={'prefixIcon'} />,
+                }}
+            
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入用户名!',
+                  },
+                ]}
+              />
+              <ProFormText.Password
+                name="password"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined className={'prefixIcon'} />,
+                }}
+  
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入密码！',
+                  },
+                ]}
+              />
+            </>
+        
+          <div
+            style={{
+              marginBlockEnd: 24,
+            }}
           >
-            <Input type='password' />
-          </Form.Item>
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+            <ProFormCheckbox noStyle name="autoLogin">
+              自动登录
+            </ProFormCheckbox>
+           
+          </div>
+        </LoginForm>
       </div>
-    </div>
+    </ProConfigProvider>
   );
 };
 
-export default Login;
+export default Login

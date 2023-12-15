@@ -5,19 +5,8 @@ import { useEffect, useState } from 'react';
 import './index.less'
 import DepTree from '../../../components/Contents/DepTree';
 import DrawerDetail from '../../../components/Contents/DrawerDetail';
+import { HrmDataTpye } from '../../../interfaces/HrmDataTpye';
 
-
-interface HrmDataTpye {
-  _id: string;
-  gender: string;
-  hiredate: string;
-  lastname: string;
-  level: string;
-  workcode: string;
-  position: string;
-  depid: number;
-  title: string;
-}
 
 const HrmInfo = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
