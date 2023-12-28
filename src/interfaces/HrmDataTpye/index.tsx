@@ -1,21 +1,23 @@
 export interface HrmDataTpye {
-    _id: string;
+    _id?: string;
+    username?:string;
+    type?:string;
     gender: string;
     hiredate: string;
     lastname: string;
     level: string;
     workcode: string;
     position: string;
-    depid: number;
+    depid: number | null;
     title: string;
     national:string;
     actConfData:string;
     costcenter:string;
-    houseAllance:number;
-    isCN:number;
-    isConf:number;
-    isTech:number;
-    mealAllance:number;
-    salGroup:number;
+    houseAllance:number | null;
+    isCN:number | null;
+    isConf:number | null;
+    isTech:number | null;
+    mealAllance:number | null;
+    salGroup:number | null;
     remark:string;
   }

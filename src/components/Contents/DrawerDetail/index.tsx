@@ -1,32 +1,30 @@
 import { ProCard, ProForm, ProFormDatePicker, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
 import { Avatar, Button, Divider, Drawer, Space, Tag, message } from 'antd'
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { HrmDataTpye } from '../../../interfaces/HrmDataTpye'
-import { get, put } from '../../../utils/request'
-//描述信息，固定得信息，无法修改
+import {  put } from '../../../utils/request'
 
 
 interface propsItem {
   open: boolean
   onClose: () => void
   info?: HrmDataTpye
+  handleDataChange:(newData:HrmDataTpye)=>void
 }
-
 
 const DrawerDetail: FC<propsItem> = (props) => {
 
 
   //打开抽屉，显示详细信息
-  const { open, onClose, info } = props
+  const { open, onClose, info ,handleDataChange} = props
   const [edit, setEdit] = useState(true)
   const readControl = () => {
     setEdit(!edit)
   }
 
-  // console.log(props)
 
   const editData = async (formdata: Record<string, any>) => {
-    const newData = { ...formdata, _id: info?._id }
+    const newData = { ...info,...formdata } as HrmDataTpye
     await put('/api/user/updateUserById', newData)
       .then((res) => {
         message.success('提交成功')
@@ -35,62 +33,23 @@ const DrawerDetail: FC<propsItem> = (props) => {
         message.error('提交失败')
         console.log(err)
       })
+
+      handleDataChange(newData)
   }
 
-  const [formData, setFormData] = useState<HrmDataTpye | null>(null)
-
-  const [detail, setDetail] = useState<HrmDataTpye | null>(null)
-
-  // useEffect(() => {
-  //   makeSyncGetRequest('/api/user/getUserById', { "_id": info?._id }).then((res)=>{setFormData(res.data) })
-  // }, [info?._id]);
-
-  // useEffect(() => {
-  //   if (detail) {
-  //     setFormData(prevDetail => (
-  //       {
-  //         ...prevDetail, ...detail
-  //       }));
-  //   }
-  //   console.log('当前formData:',formData)
-  // }, [detail]);
-
-  
-  useEffect(() => {
-    console.log('@_id is', info?._id)
-    const fetchData = async () => {
-      try {
-        // 发起异步请求
-        
-        const response = await get('/api/user/getUserById', { "_id": info?._id });  // 替换成你的实际接口地址
-        const newData = response.data;
-        // 在获取到数据后更新组件的状态
-         setDetail(newData)
-        console.log('newdata is ', newData);
-        console.log('@@detail is ', detail)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();  // 执行异步请求
-
-    // 如果有需要，在组件卸载时执行清理工作
-    return () => {
-      // 取消请求或其他清理工作
-      console.log('组件已卸载')
-    };
-  }, [info?._id]);
-
-  
 
   return (
     <>
       <Drawer
+        key={info?._id}
         title={'详细信息'}
         placement="right"
+        getContainer={false}
         size={'large'}
-        onClose={onClose}
+        onClose={()=>{
+          readControl()
+          onClose()
+        }}
         destroyOnClose={true}
         style={{ backgroundImage: 'linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)' }}
         open={open}
@@ -102,7 +61,7 @@ const DrawerDetail: FC<propsItem> = (props) => {
       >
         <ProCard
           title="基本信息"
-          extra="extra"
+          // extra="extra"
           tooltip="不可修改"
           style={{ maxWidth: '100%' }}
           gutter={8}
@@ -114,7 +73,7 @@ const DrawerDetail: FC<propsItem> = (props) => {
               style={{ backgroundColor: '#7265e6', verticalAlign: 'middle' }}
               size="large"
               gap={4}>
-              {info?.title}
+              {info?.lastname}
             </Avatar></div>
             <div id='card-body' style={{ display: 'flex' }}>
               <Tag style={{ marginRight: '15px' }}>{info?.gender}</Tag>
@@ -129,7 +88,7 @@ const DrawerDetail: FC<propsItem> = (props) => {
 
         <ProCard
           title="其他信息"
-          extra="extra"
+          // extra="extra"
           tooltip="可编辑"
           style={{ maxWidth: '100%' }}
           gutter={8}
@@ -139,10 +98,10 @@ const DrawerDetail: FC<propsItem> = (props) => {
           <div id='card-main' style={{ display: 'flex', flexDirection: 'column' }}>
             <div id='card-head' style={{ marginBottom: '15px' }}></div>
             <div id='card-body' style={{ display: 'flex' }}>
-              <ProForm disabled={edit} style={{ display: 'flex', flexDirection: 'column' }} onFinish={editData}>
+              <ProForm disabled={edit} style={{ display: 'flex', flexDirection: 'column' }} onFinish={editData} >
                 <div style={{ display: 'flex' }}>
                   <div style={{ width: '25%', marginRight: '10%' }}>
-                    <ProFormText width="md" name='national' label="国籍" initialValue={detail?.national} />
+                    <ProFormText width="md" name='national' label="国籍"  initialValue={info?.national}/>
                   </div>
 
                   <div style={{ width: '25%', marginRight: '10%' }}>

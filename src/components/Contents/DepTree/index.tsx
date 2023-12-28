@@ -3,13 +3,14 @@ import PubSub from 'pubsub-js'
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
-import { get,post } from '../../../utils/request'
+import { get } from '../../../utils/request'
 import { SourceData, convertTree, getChildrenKey } from './treeutil'
 
 
 const DepTree: FC = () => {
 
   const [deptData, setdeptData] = useState<SourceData[]>([])
+
 
   useEffect(() => {
      get('/api/dep/getdep')
@@ -31,13 +32,9 @@ const DepTree: FC = () => {
     const childrenDep = getChildrenKey(deptData, depid)
     const selectDep = [depid, ...childrenDep]
 
-    await post('/api/user/getuserByDepid', { "depids": selectDep })
-      .then(data => {
-        // console.log(data)
-        PubSub.publish('empInfo', data.data)
-      })
-      .catch(reason => console.log(reason))
+    PubSub.publish('depInfo', selectDep)
   };
+
 
   return (
     <div style={{ height: 'auto' }}>

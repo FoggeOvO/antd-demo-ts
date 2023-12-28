@@ -9,6 +9,7 @@ axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
 const token = localStorage.getItem('token')
 
 export const get = (url,data) => {
+  console.log(data)
   return new Promise((resolve, reject) => {
     axios({
       url,
