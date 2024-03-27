@@ -77,6 +77,31 @@ const TestC = () => {
   };
 
 
+  const searchConfig = {
+    collapsed: false, // 初始是否折叠搜索栏
+    optionRender: () => {
+      // 自定义搜索栏右侧的操作按钮
+      return [
+        <Button key="search" type="primary">
+          测试
+        </Button>,
+        <Button key="reset">
+          重置
+        </Button>,
+      ];
+    },
+    onSearch: () => {
+      // 搜索回调函数
+      console.log('搜索值：');
+    },
+    onReset: () => {
+      // 重置回调函数
+      console.log('重置搜索栏');
+    },
+    // 其他配置项...
+  };
+
+
   return (
     <div id='mainpage' style={{ display: 'flex', flexDirection: 'column', height: '100%', }}>
       <div id='listpage-head' style={{ height: '15%', width: '100%' }}></div>
@@ -93,9 +118,7 @@ const TestC = () => {
                 </Button>,
               ];
             }}
-            search={{
-              filterType: 'light',
-            }}
+            search={searchConfig}
             metas={{
               title: {
                 title: '人员查询'

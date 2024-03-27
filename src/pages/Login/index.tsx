@@ -14,7 +14,7 @@ import type { CSSProperties } from 'react';
 import React,{FC} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { post } from '../../utils/request';
-
+import MD5 from 'crypto-js/md5';
 
 
 const Login: FC = () => {
@@ -37,12 +37,14 @@ const Login: FC = () => {
     const formInstance = formRef.current;
     if (formInstance) {
       const userinfo = formInstance.getFieldsValue(['username', 'password']);
-     await post('/auth/gettoken', userinfo).then(
+      userinfo.password = MD5(userinfo.password).toString()
+     await post('/api/auth/getToken', userinfo).then(
         (res) => {
-          if (res.code === '0000') {
-            localStorage.setItem('token',res.token)
-            localStorage.setItem('lastname',res.user.lastname)
-            localStorage.setItem('lastname',res.user.workcode)
+          if (res.code === 200) {
+            console.log(res)
+            localStorage.setItem('token',res.data)
+            // localStorage.setItem('lastname',res.user.lastname)
+            // localStorage.setItem('lastname',res.user.workcode)
             navigate('/index');
             showMessage('success');
           } else {
@@ -71,7 +73,7 @@ const Login: FC = () => {
     <ProConfigProvider hashed={false}>
       <div >
         <LoginForm
-          logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+          
           title="OA-EHR"
           subTitle="人事托管平台"
           onFinish={onFinish}

@@ -13,7 +13,7 @@ const DepTree: FC = () => {
 
 
   useEffect(() => {
-     get('/api/dep/getdep')
+     get('/api/dep/getDept')
       .then((data) => {
         setdeptData(data.data)
       })

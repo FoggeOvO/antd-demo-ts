@@ -24,7 +24,7 @@ const HrmInfo = () => {
   const [depids,setDepids] = useState([])
 
   const getuserByDepid = async (depids: []) => {
-    const newData = await get('/api/user/getuserByDepid', { "depids": depids })
+    const newData = await get('/api/user/getUserByDepId', { "depids": depids })
     console.log(newData)
     return newData
   }
