@@ -13,6 +13,7 @@ import { FormInstance, Space, message } from 'antd';
 import type { CSSProperties } from 'react';
 import React,{FC} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getToken } from '../../api/dataapi';
 import { post } from '../../utils/request';
 import MD5 from 'crypto-js/md5';
 
@@ -36,9 +37,13 @@ const Login: FC = () => {
   const onFinish = async () => {
     const formInstance = formRef.current;
     if (formInstance) {
-      const userinfo = formInstance.getFieldsValue(['username', 'password']);
-      userinfo.password = MD5(userinfo.password).toString()
-     await post('/api/auth/getToken', userinfo).then(
+      const user = formInstance.getFieldsValue(['username', 'password']);
+      user.password = MD5(user.password).toString()
+      // const result = getToken(user);
+      // if(result) navigate('/index');
+
+
+     await post('/api/auth/getToken', user).then(
         (res) => {
           if (res.code === 200) {
             console.log(res)
@@ -60,6 +65,7 @@ const Login: FC = () => {
     
     }
   };
+
 
 
   const iconStyles: CSSProperties = {
