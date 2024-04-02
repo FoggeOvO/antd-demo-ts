@@ -22,3 +22,16 @@ export const getToken = async (user : UserInfo) => {
             throw error
         })
 }
+
+export const getDept = async () => {
+    return await get('dep/getDept')
+    .then(res => {
+        const deptInfo = res.data
+        console.log('@@',deptInfo)
+    })
+    .catch(error => {
+        console.log(error)
+        throw error
+    })
+    
+}

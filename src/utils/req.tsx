@@ -22,12 +22,9 @@ const request = axios.create({
 request.interceptors.response.use(
     //请求成功则返回response.data
     response => {
-        console.log('@@error222',response.data)
         //根据返回的code统一处理错误
         const { code } = response.data
-        console.log('@@error333',code)
         if (code != 200) {
-            console.log('if@@',response.data)
             switch (code) {
                 case 601:
                     getMessage(601)
@@ -37,18 +34,34 @@ request.interceptors.response.use(
                     break
             }
         }
-        console.log('req@@',response.data)
         return response.data
     },
     //请求失败则返回一个reject的Promise对象
     error => {
         if (error && error.response) {
-            console.log('@@error',error.response.msg)
+            console.log(error)
         }
         return Promise.reject(error);
     }
 )
 
+
+request.interceptors.request.use(
+    config => {
+        if (config.url === '/api/auth/login') {
+            return config
+        }
+        const token = localStorage.getItem('token')
+        config.headers.token = token
+        return config
+    },
+    error => {
+        if (error && error.response) {
+            console.log(error)
+        }
+        return Promise.reject(error);
+    }
+)
 
 export const get = (url: string, params?: any) => {
     return request({
@@ -59,7 +72,6 @@ export const get = (url: string, params?: any) => {
 }
 
 export const post = (url: string, params: any) => {
-    console.log('@@error111')
     return request({
         url,
         method: 'post',

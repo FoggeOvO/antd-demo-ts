@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { getToken } from '../../api/dataapi';
+import { getDept, getToken } from '../../api/dataapi';
 import { UserInfo } from '../../interfaces/UserInfo'
 import MD5 from 'crypto-js/md5';
 
@@ -11,7 +11,7 @@ const TestC = () => {
   user.password = MD5(user.password).toString()
 
   useEffect(() => {
-    getToken(user)
+    getDept()
       .then(result => {
         console.log(result)
       })

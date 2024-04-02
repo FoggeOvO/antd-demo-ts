@@ -1,4 +1,4 @@
-import items from '../../interfaces/Items'
+import items from '../../interfaces/items'
 
 const left:items[] = [
   {
