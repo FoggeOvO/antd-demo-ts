@@ -23,8 +23,8 @@ export const getToken = async (user : UserInfo) => {
         })
 }
 
-export const getDept = async () => {
-    return await get('dep/getDept')
+export const getDept =  () => {
+    return  get('/api/dep/getDept')
     .then(res => {
         const deptInfo = res.data
         console.log('@@',deptInfo)

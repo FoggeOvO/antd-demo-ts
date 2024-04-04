@@ -32,7 +32,6 @@ const Login: FC = () => {
       user.password = MD5(user.password).toString()
       await getToken(user)
         .then(res => {
-          console.log('@res', res)
           navigate('/index')
         })
         .catch(err => {

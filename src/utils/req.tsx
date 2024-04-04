@@ -48,11 +48,13 @@ request.interceptors.response.use(
 
 request.interceptors.request.use(
     config => {
-        if (config.url === '/api/auth/login') {
-            return config
-        }
+        console.log('@@请求拦截2')
         const token = localStorage.getItem('token')
-        config.headers.token = token
+        console.log('@@token',token)
+        console.log('config',config)
+        if (token) {
+            config.headers['token'] = token
+        }
         return config
     },
     error => {
