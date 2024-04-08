@@ -3,7 +3,7 @@ import PubSub from 'pubsub-js'
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
-import { get } from '../../../utils/request'
+import { getDept } from '../../../api/dataapi'
 import { SourceData, convertTree, getChildrenKey } from './treeutil'
 
 
@@ -13,13 +13,9 @@ const DepTree: FC = () => {
 
 
   useEffect(() => {
-     get('/api/dep/getDept')
-      .then((data) => {
-        setdeptData(data.data)
-      })
-      .catch(
-        reason => console.log(reason)
-      )
+      getDept()
+      .then(data => setdeptData(data))
+      .catch(err => {return err})
   }, [])
 
 

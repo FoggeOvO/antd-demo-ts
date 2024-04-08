@@ -24,7 +24,7 @@ request.interceptors.response.use(
     response => {
         //根据返回的code统一处理错误
         const { code } = response.data
-        if (code != 200) {
+        if (code !== 200) {
             switch (code) {
                 case 601:
                     getMessage(601)
@@ -45,13 +45,10 @@ request.interceptors.response.use(
     }
 )
 
-
+//请求拦截后，将token加入到请求头
 request.interceptors.request.use(
     config => {
-        console.log('@@请求拦截2')
         const token = localStorage.getItem('token')
-        console.log('@@token',token)
-        console.log('config',config)
         if (token) {
             config.headers['token'] = token
         }

@@ -1,24 +1,15 @@
-import { useEffect } from 'react'
-import { getDept, getToken } from '../../api/dataapi';
-import { UserInfo } from '../../interfaces/UserInfo'
-import MD5 from 'crypto-js/md5';
+import { useEffect } from "react"
+import {getuserByDepid} from '../../api/dataapi'
+
 
 const TestC = () => {
-  const user: UserInfo = {
-    username: 'admin',
-    password: '123456'
-  }
-  user.password = MD5(user.password).toString()
+  useEffect(()=>{
+    getuserByDepid([2,3,4,5,6,7,8,9,10,11,12,13])
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
 
-  useEffect(() => {
-    getDept()
-      .then(result => {
-        console.log(result)
-      })
-      .catch(result => {
-        console.log(result)
-      })
-  }, [])
+  },[])
+ 
 
   return (
     <div>
